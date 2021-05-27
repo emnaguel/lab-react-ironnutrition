@@ -48,26 +48,39 @@ class App extends Component {
 
 
   handleFoodAdd = (foodName) => {
-    console.log("yo", foodName)
-    const copyList = [...this.state.list, foodName]
+
+    let copyFirstList = [...this.state.list, foodName]
+
+
+
 
     let totalCalories = 0
-    copyList.forEach((food) => totalCalories += food.calories)
+    copyFirstList.forEach((food) => totalCalories += food.calories)
 
     this.setState({
 
-      list: copyList,
+      list: copyFirstList,
       total: totalCalories
     }
     )
-    console.log(this.state.list)
-    // const findFood = this.state.allFoods.find((food) => food.name === foodName)
-    // const listFood = [findFood, ...this.state.list]
-    // console.log(totalCalories)
-    // this.setState({
-    //   list: listFood,
-    //   total: totalCalories
-    // })
+    let array = []
+    let copyList = [...this.state.list]
+    copyList.map((food)=> {
+      array.push(food.name)
+    })
+
+    if(array.includes(foodName.name)) {
+      copyList.map((food) => {
+        if(food.name === foodName.name) {
+          food.calories += foodName.calories
+          food.quantity += foodName.quantity
+        }
+      })
+      this.setState({
+        list: copyList
+      })
+    } 
+
   }
 
 
