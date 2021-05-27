@@ -50,10 +50,6 @@ class App extends Component {
   handleFoodAdd = (foodName) => {
 
     let copyFirstList = [...this.state.list, foodName]
-
-
-
-
     let totalCalories = 0
     copyFirstList.forEach((food) => totalCalories += food.calories)
 
@@ -96,6 +92,18 @@ class App extends Component {
 
     this.setState({
       allFoods: foodSearch.length === 0 ? foods : foodFiltered
+    })
+  }
+
+  handleDelete = (index) => {
+    const newList = [...this.state.list]
+    newList.splice(index, 1)
+    let totalCalories = 0
+    newList.forEach((food) => totalCalories += food.calories)
+
+    this.setState({
+      list: newList,
+      total: totalCalories
     })
   }
 
@@ -148,9 +156,9 @@ class App extends Component {
           </div>
           <div className="column">
             <h3><b>Today's foods</b></h3>
-            {this.state.list.map((food) => {
+            {this.state.list.map((food, index) => {
               return <ul key={food.name}>
-                <li> ✓{food.quantity} {food.name} = {food.calories} calories</li>
+                <li> ✓{food.quantity} {food.name} = {food.calories} calories <i className="fas fa-trash" onClick={() => this.handleDelete(index)}></i></li>
            
               </ul>
             })}
